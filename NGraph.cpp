@@ -3,14 +3,20 @@
 #include "malloc.h"
 #include "queue.h"
 #include "string.h"
-#include "term_courses.h"
 #include "stack.h"
 
 
 CGraph::CGraph() {
 	m_vertices.createArray(sizeof(CVertex));
 	m_headvertices_id_table.createArray(sizeof(int));
+	m_bDirection = false;
 }
+
+
+void CGraph::setHasDirection(bool _hasDirection) {
+	m_bDirection = _hasDirection;
+}
+
 
 CVertex * CGraph::getVertex(int index) {
 	if (index >= m_vertices.GetLength())
@@ -28,7 +34,7 @@ void CGraph::addVertex(CVertex * vertex) {
 }
 
 // 建立顶点. 加入头顶点中
-CVertex* CGraph::CreateVertex(int data) {
+CVertex* CGraph::CreateVertex(void * data) {
 	int index = m_vertices.GetLength();
 	CVertex *v = new CVertex(index, data);
 	m_vertices.AddItem(v);
@@ -39,13 +45,41 @@ CVertex* CGraph::CreateVertex(int data) {
 
 // 建立弧 from出度+1  to入度+1  从 m_headvertices_id_table 中删除from
 void CGraph::CreateArc(CVertex *from, CVertex *to,  int weight) {
-	CArc *arc = new CArc;
-	arc->m_weight = weight;
-	arc->m_to = to;
 
-	to->m_inDegree++;
-	from->m_arc.AddItem(arc);
-	from->m_outDegree++;
+	if (m_bDirection) {
+
+		CArc *arc = new CArc;
+		arc->m_weight = weight;
+		arc->m_to = to;
+
+		to->m_inDegree++;
+		from->m_arc.AddItem(arc);
+		from->m_outDegree++;
+
+		delete arc;
+	}
+	else {
+		CArc *arc = new CArc;
+		arc->m_weight = weight;
+		arc->m_to = to;
+
+		from->m_inDegree++;
+		from->m_outDegree++;
+		from->m_arc.AddItem(arc);
+
+
+		delete arc;
+
+		arc = new CArc;
+		arc->m_weight = weight;
+		arc->m_to = from;
+
+		to->m_inDegree++;
+		to->m_outDegree++;
+		to->m_arc.AddItem(arc);
+
+		delete arc;
+	}
 
 	for (int i = 0; i < m_headvertices_id_table.GetLength(); i++) {
 		int* id =(int *) m_headvertices_id_table[i];
@@ -55,7 +89,6 @@ void CGraph::CreateArc(CVertex *from, CVertex *to,  int weight) {
 		}
 	}
 
-	delete arc;
 }
 
 void CGraph::dfsTraverseRecursion() {
@@ -92,7 +125,7 @@ void CGraph::bfsTraverseIteration() {
 			if (vex->m_bVisited)
 				continue;
 			vex->m_bVisited = true;
-			printf("breadth first traverse id : %d / data : %d\n", vex->m_index, vex->m_data);
+			printf("breadth first traverse id : %d", vex->m_index);
 			for (int i = 0; i < vex->m_arc.GetLength(); i++) {
 				CArc* a = (CArc *)vex->m_arc[i];
 				CVertex *to = a->m_to;
@@ -111,6 +144,7 @@ void CGraph::bfsTraverseIteration() {
 
 // 建立节点CreateVertex(). 如果有先修课程 建立弧CreateArc()
 void CGraph::insertCourse(char * course_no, char * prev_course, int course_credit) {
+#ifdef insertCourse
 	CVertex *vex = CreateVertex(course_credit);
 	sprintf(vex->m_course_no, "%s", course_no);
 
@@ -127,11 +161,13 @@ void CGraph::insertCourse(char * course_no, char * prev_course, int course_credi
 
 		CreateArc(prev_vex, vex, 1);
 	}
+#endif
 }
 
 
 void CGraph::sortingCourse(VectorArray* course_group, int solution) {
-
+//#define sortingCourse
+#ifdef sortingCourse
 	CStack stack;
 
 
@@ -203,6 +239,7 @@ void CGraph::sortingCourse(VectorArray* course_group, int solution) {
 			}
 		}
 	}
+#endif
 } 
 
 int CGraph::findLongestPath(CVertex *vex) {

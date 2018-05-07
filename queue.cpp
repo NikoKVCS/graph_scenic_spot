@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "queue.h"
+
 bool CQueue:: queueEmpty() {
 	if (NULL == m_queue_front)
 		return true;

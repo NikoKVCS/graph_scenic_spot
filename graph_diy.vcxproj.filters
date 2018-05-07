@@ -2,13 +2,13 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="graph_diy.cpp" />
-    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="VectorArray.cpp" />
     <ClCompile Include="NGraph.cpp">
       <Filter>NGraph</Filter>
     </ClCompile>
     <ClCompile Include="queue.cpp" />
     <ClCompile Include="stack.cpp" />
+    <ClCompile Include="file_operator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -24,15 +24,13 @@
       <Filter>NGraph</Filter>
     </ClInclude>
     <ClInclude Include="queue.h" />
-    <ClInclude Include="term_courses.h" />
     <ClInclude Include="stack.h" />
+    <ClInclude Include="file_operator.h" />
+    <ClInclude Include="scenic_spot.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NGraph">
       <UniqueIdentifier>{63462914-dabf-4ae7-a7a1-076af2882dcb}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="course.txt" />
   </ItemGroup>
 </Project>
