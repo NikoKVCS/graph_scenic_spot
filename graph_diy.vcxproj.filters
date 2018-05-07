@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="graph_diy.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="VectorArray.cpp" />
+    <ClCompile Include="NGraph.cpp">
+      <Filter>NGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="queue.cpp" />
+    <ClCompile Include="stack.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="VectorArray.h" />
+    <ClInclude Include="NGraph.h">
+      <Filter>NGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="vertex.h">
+      <Filter>NGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="arc.h">
+      <Filter>NGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="queue.h" />
+    <ClInclude Include="term_courses.h" />
+    <ClInclude Include="stack.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="NGraph">
+      <UniqueIdentifier>{63462914-dabf-4ae7-a7a1-076af2882dcb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="course.txt" />
+  </ItemGroup>
+</Project>
