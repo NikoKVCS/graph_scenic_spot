@@ -31,6 +31,8 @@ public:
 	void sortingCourse(VectorArray*, int solution);
 	int findLongestPath(CVertex *vex);
 	void setHasDirection(bool);
+
+	void findPathOut(CVertex *vex);
 };
 
 #endif

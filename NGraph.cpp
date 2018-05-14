@@ -4,6 +4,7 @@
 #include "queue.h"
 #include "string.h"
 #include "stack.h"
+#include "scenic_spot.h"
 
 
 CGraph::CGraph() {
@@ -165,6 +166,39 @@ void CGraph::insertCourse(char * course_no, char * prev_course, int course_credi
 }
 
 
+void CGraph::findPathOut(CVertex *vex) {
+	CStack stack;
+	CVertex* node= vex;
+
+	int deepest = 0;
+	CVertex * deepest_node = node;
+
+	while (true) {
+
+		if (node->m_bVisited)
+			break;
+	
+		printf("%d_%s ", ((CScenicSpot*)node->m_data)->m_id, ((CScenicSpot*)node->m_data)->m_name);
+		node->m_bVisited = true;
+
+		for (int i = 0; i < node->m_arc.GetLength(); i++) {
+			int depth = findLongestPath(((CArc *)node->m_arc[i])->m_to);
+			if (depth >= deepest) {
+				deepest = depth;
+				deepest_node = ((CArc *)node->m_arc[i])->m_to;
+			}
+		}
+
+		if (deepest == 0)
+			break;
+
+		node = deepest_node;
+		deepest = 0;
+		
+	}
+
+}
+
 void CGraph::sortingCourse(VectorArray* course_group, int solution) {
 //#define sortingCourse
 #ifdef sortingCourse
@@ -244,16 +278,31 @@ void CGraph::sortingCourse(VectorArray* course_group, int solution) {
 
 int CGraph::findLongestPath(CVertex *vex) {
 
+	if (vex->m_bVisited)
+		return 0;
+
 	if (vex->m_arc.GetLength() == 0)
 		return 1;
 
+	bool visited = vex->m_bVisited;
+	vex->m_bVisited = true;
 	int deepest = 0;
 
+	bool *a = new bool[vex->m_arc.GetLength()] ;
+
 	for (int i = 0; i < vex->m_arc.GetLength(); i++) {
+		a[i] = ((CArc *)vex->m_arc[i])->m_to->m_bVisited;
 		int depth = findLongestPath(((CArc *)vex->m_arc[i])->m_to);
 		if (depth > deepest)
 			deepest = depth;
 	}
+
+	//for (int i = 0; i < vex->m_arc.GetLength(); i++) {
+		//((CArc *)vex->m_arc[i])->m_to->m_bVisited = a[i];
+	//}
+
+	vex->m_bVisited = visited;
+
 	return (1 + deepest);
 }
 
