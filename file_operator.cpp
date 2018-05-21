@@ -1,8 +1,22 @@
+
 #include "stdafx.h"
+#include "stdlib.h"
+#include "malloc.h"
 #include "string.h"
 #include "NGraph.h"
+#include "string.h"
 #include "scenic_spot.h"
-#include <stdlib.h>
+#include "stdlib.h"
+#include "file_operator.h"
+#include "VectorArray.h"
+#include "vertex.h"
+#include "NGraph.h"
+#include "malloc.h"
+#include "queue.h"
+#include "string.h"
+#include "stack.h"
+#include "scenic_spot.h"
+
 
 VectorArray vex_vector;
 

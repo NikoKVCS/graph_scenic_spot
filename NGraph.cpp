@@ -5,7 +5,8 @@
 #include "string.h"
 #include "stack.h"
 #include "scenic_spot.h"
-
+#include "VectorArray.h"
+#include "vertex.h"
 
 CGraph::CGraph() {
 	m_vertices.createArray(sizeof(CVertex));
@@ -106,9 +107,65 @@ void CGraph::dfsTraverseRecursion() {
 
 }
 
+void CGraph::clearVisitedFlag() {
+	for (int i = 0; i < m_vertices.GetLength(); i++)
+	{
+		((CVertex*)m_vertices[i])->m_bVisited = false;
+	}
 
-void CGraph::dfsTraverseIteration() {
+}
 
+void CGraph::dfsTraverseIteration(CVertex *begin) {
+
+	CStack stack;
+	stack.push(begin);
+
+	int deepest = findLongestPath(begin);
+	int depth = 0;
+	clearVisitedFlag();
+
+	CQueue *path = new CQueue;
+
+	while (!stack.stackEmpty()) 
+	{
+		CVertex *node = (CVertex*)stack.pop();
+		if (node->m_bVisited)
+			continue;
+
+		node->m_bVisited = true;
+		depth++;
+		path->enqueue(node);
+
+		bool bEnd = true;
+		for (int i = 0; i < node->m_arc.GetLength(); i++)
+		{
+			CVertex* neighborhood = ((CArc*)node->m_arc[i])->m_to;
+			if (NULL != neighborhood && false == neighborhood->m_bVisited)
+			{
+				bEnd = false;
+				stack.push(neighborhood);
+			}
+		}
+		if (bEnd)
+		{
+			if (depth == deepest)
+			{
+				printf("\n");
+				while(!path->queueEmpty())
+				{
+					CVertex* v = (CVertex*)path->delqueue();
+					printf("%s-", ((CScenicSpot*)v->m_data)->m_name);
+				}
+			}
+			depth = 1;
+			free(path);
+			path = new CQueue;
+			path->enqueue(begin);
+			clearVisitedFlag();
+			begin->m_bVisited = true;
+		}
+		
+	}
 
 }
 

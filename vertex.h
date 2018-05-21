@@ -2,6 +2,8 @@
 #define VERTEX_H
 
 #include "arc.h"
+#include "scenic_spot.h"
+
 
 class CVertex {
 
@@ -27,6 +29,30 @@ public:
 			CVertex *v = a->m_to;
 			v->visit();
 		}
+	}
+
+
+	void visit(int depth, int deepest, char *path) {
+		if (m_bVisited == true)
+			return;
+		
+		char newPath[128];
+		sprintf(newPath, "%s-%d %s", path, ((CScenicSpot*)m_data)->m_id, ((CScenicSpot*)m_data)->m_name);
+
+		depth++;
+		m_bVisited = true;
+		
+		for (int i = 0; i < m_arc.GetLength(); i++) {
+			CArc* a = (CArc *)m_arc[i];
+			CVertex *v = a->m_to;
+			v->visit(depth, deepest, newPath);
+		}
+		if (depth == deepest)
+		{
+			printf("\n%s", newPath);
+		}
+
+		m_bVisited = false;
 	}
 
 public:
