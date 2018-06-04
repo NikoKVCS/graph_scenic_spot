@@ -31,7 +31,10 @@ public:
 	int findLongestPath(CVertex *vex);
 	void setHasDirection(bool);
 
+	int getVertexIndex(CVertex *vex);
+
 	void findPathOut(CVertex *vex);
+	void dijkstra(CVertex *vex, CVertex *vex2);
 	void clearVisitedFlag();
 
 private:

@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="arc.h" />
+    <ClInclude Include="array.h" />
     <ClInclude Include="file_operator.h" />
     <ClInclude Include="NGraph.h" />
     <ClInclude Include="queue.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="vertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="array.cpp" />
     <ClCompile Include="file_operator.cpp" />
     <ClCompile Include="graph_diy.cpp" />
     <ClCompile Include="queue.cpp" />

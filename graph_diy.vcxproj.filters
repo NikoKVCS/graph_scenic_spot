@@ -9,6 +9,7 @@
     <ClCompile Include="queue.cpp" />
     <ClCompile Include="stack.cpp" />
     <ClCompile Include="file_operator.cpp" />
+    <ClCompile Include="array.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -27,6 +28,7 @@
     <ClInclude Include="stack.h" />
     <ClInclude Include="file_operator.h" />
     <ClInclude Include="scenic_spot.h" />
+    <ClInclude Include="array.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NGraph">

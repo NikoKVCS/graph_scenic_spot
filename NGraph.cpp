@@ -223,6 +223,112 @@ void CGraph::insertCourse(char * course_no, char * prev_course, int course_credi
 }
 
 
+void CGraph::dijkstra(CVertex *vex1, CVertex *vex2)
+{
+	typedef struct dis_s {
+		CStack paths;
+		int depth;
+	}dis_t;
+
+	int size = m_vertices.GetLength();
+
+	dis_t *dis = new dis_t[size];
+
+	int src;
+	int dst;
+
+	int*T = new int[size];
+	for (int i = 0; i < size; i++)
+	{
+		T[i] = -1;
+		dis[i].depth = 2000000000; // 模拟正无穷
+
+		if (m_vertices[i] == vex1)
+			src = i;
+		 if (m_vertices[i] == vex2)
+			dst = i;
+	}
+
+	
+	dis[src].depth = 0;
+	int top = 0;
+	T[top] = src;
+	top++;
+
+	//初始化dis数组
+	for (int j = 0; j < vex1->m_arc.GetLength(); j++)
+	{
+		CArc * arc = (CArc*)vex1->m_arc[j];
+		int index = 0;
+		for (int i = 0; i < size; i++)
+		{
+			if (m_vertices[i] == arc->m_to)
+			{
+				index = i;
+				break;
+			}
+		}
+
+		dis[index].depth = arc->m_weight;
+		CQueue * q = new CQueue;
+		q->enqueue(arc->m_to);
+		dis[index].paths.push(q);
+	}
+
+
+
+	while (T[size - 1] == -1)
+	{
+		int min = 2147483647;
+		int min_pos = src;
+	
+		for (int i = 0; i < size; i++)
+		{
+			bool skip = false;
+			for (int j = 0; j <= top; j++)
+			{
+				if (T[j] == i)
+					skip = true;
+			}
+
+			if (true == skip)
+				continue;
+
+			if (dis[i].depth < min)
+			{
+				min_pos = i;
+				min = dis[i].depth;
+			}
+		}
+
+		T[top] = min_pos;
+		top++;
+
+		CVertex* v = (CVertex*)m_vertices[min_pos];
+		CQueue * q = (CQueue *)dis[min_pos].paths.pop();
+
+		for (int i = 0; i < v->m_arc.GetLength(); i++) {
+			CArc * arc = (CArc*)v->m_arc[i];
+			if (arc->m_to == vex1)
+				continue;
+		}
+
+	}
+
+}
+
+int CGraph::getVertexIndex(CVertex *vex)
+{
+	int size = m_vertices.GetLength();
+
+	for (int i = 0; i < size; i++)
+	{
+		if (m_vertices[i] == vex)
+			return i;
+	}
+	return -1;
+}
+
 void CGraph::findPathOut(CVertex *vex) {
 	CStack stack;
 	CVertex* node= vex;
